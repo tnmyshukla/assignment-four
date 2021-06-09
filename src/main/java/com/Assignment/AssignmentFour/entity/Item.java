@@ -1,149 +1,149 @@
 package com.Assignment.AssignmentFour.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Version;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-@Entity
+
 /**
- * Entity class.
+ * The type Item.
  */
+@Entity
 public class Item {
-  @Id @GeneratedValue(generator="system-uuid")
-  @GenericGenerator(name="system-uuid", strategy = "uuid")
-  /**
-   * Item id.
-   */
+  @Id
+
   private String id;
-  /**
-   * Item name.
-   */
   private String name;
-  /**
-   * Item quantity.
-   */
   private int quantity;
-  /**
-   * Item price.
-   */
   private int price;
-  /**
-   * Item type.
-   */
   private String type;
-  /**
-   * Sales tax calculated.
-   */
   private double salesTax;
-  /**
-   * Final price of item.
-   */
   private double finalPrice;
-  @Version
-  /**
-   * Variable to implement optimistic locking.
-   */
-  private int version;
+
 
   /**
-   * Constructor for Item class.
-   * @param name name
-   * @param type type
-   * @param price price
-   * @param quantity quantity
-   */
-  public Item(final String name, final String type,final int price,final int quantity){
-    this.name=name;
-    this.price=price;
-    this.quantity=quantity;
-    this.type=type;
-    setFinalPrice();
-  }
-
-  /**
-   * Default constructor.
-   */
-  public Item(){
-
-  }
-
-  /**
-   *Method to get quantity.
-   * @return quantity
+   * Gets quantity.
+   *
+   * @return the quantity
    */
   public int getQuantity() {
     return quantity;
   }
+
   /**
-   *Method to get price.
-   * @return price
+   * Gets price.
+   *
+   * @return the price
    */
   public int getPrice() {
     return price;
   }
+
   /**
-   *Method to get type.
-   * @return type
+   * Gets type.
+   *
+   * @return the type
    */
   public String getType() {
     return type;
   }
+
   /**
-   *Method to get salestax.
-   * @return salestax
+   * Gets sales tax.
+   *
+   * @return the sales tax
    */
   public double getSalesTax() {
     return salesTax;
   }
+
   /**
-   *Method to get final price.
-   * @return final price
+   * Gets final price.
+   *
+   * @return the final price
    */
   public double getFinalPrice() {
     return finalPrice;
   }
 
-  public void setFinalPrice() {
-    switch(this.type){
-      case "raw":
-        this.salesTax=12.5*this.price*0.01;
-        break;
-      case "manufactured":
-        this.salesTax=12.5*this.price*0.01;
-        this.salesTax+=0.02*(this.price+this.salesTax);
-        break;
-      case "imported":
-        double importDuty=0.1*this.price;
-        double surcharge;
-        if(this.price+importDuty<=100) {
-          surcharge=5.0;
-        } else if(this.price+importDuty<=200) {
-          surcharge=10.0;
-        }else{
-          surcharge=0.05*(this.price+importDuty);
-        }
-        this.salesTax=importDuty+surcharge;
-        break;
-    }
-    this.finalPrice=(this.salesTax+this.price)*this.quantity;
-  }
+
+  /**
+   * Gets id.
+   *
+   * @return the id
+   */
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
+  /**
+   * Sets id.
+   *
+   * @param id the id
+   */
+  public void setId(final String id) {
     this.id = id;
   }
 
+  /**
+   * Sets price.
+   *
+   * @param price the price
+   */
+  public void setPrice(final int price) {
+    this.price = price;
+  }
+
+  /**
+   * Sets type.
+   *
+   * @param type the type
+   */
+  public void setType(final String type) {
+    this.type = type;
+  }
+
+  /**
+   * Sets sales tax.
+   *
+   * @param salesTax the sales tax
+   */
+  public void setSalesTax(final double salesTax) {
+    this.salesTax = salesTax;
+  }
+
+  /**
+   * Sets final price.
+   *
+   * @param finalPrice the final price
+   */
+  public void setFinalPrice(final double finalPrice) {
+    this.finalPrice = finalPrice;
+  }
+
+  /**
+   * Gets name.
+   *
+   * @return the name
+   */
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  /**
+   * Sets name.
+   *
+   * @param name the name
+   */
+  public void setName(final String name) {
     this.name = name;
   }
 
 
+  /**
+   * Sets quantity.
+   *
+   * @param quantity the quantity
+   */
+  public void setQuantity(final int quantity) {
+    this.quantity = quantity;
+  }
 }

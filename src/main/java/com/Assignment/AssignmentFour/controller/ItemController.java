@@ -2,18 +2,14 @@ package com.Assignment.AssignmentFour.controller;
 
 import com.Assignment.AssignmentFour.entity.Item;
 import com.Assignment.AssignmentFour.service.ItemService;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-@RestController
 /**
- * RestController class.
+ * The type Item controller.
  */
+@RestController
 public class ItemController {
   @Autowired
   /**
@@ -21,22 +17,41 @@ public class ItemController {
    */
   private ItemService itemService;
 
+  /**
+   * Gets all items.
+   *
+   * @return the all items
+   */
   @RequestMapping("/items")
   /**
    * Method to get all items.
    */
-  public CompletableFuture<ResponseEntity<List<Item>>> getAllItems() {
-    return itemService.getItems().thenApply(ResponseEntity::ok);
+  public List<Item> getAllItems() {
+    return itemService.getItems();
   }
 
+  /**
+   * Gets item.
+   *
+   * @param id the id
+   * @return the item
+   */
   @RequestMapping("/items/{id}")
   /**
    * Method to get item as per id.
    */
-  public CompletableFuture<ResponseEntity<Item>> getItem(@PathVariable final String id) {
-    return itemService.getItem(id).thenApply(ResponseEntity::ok);
+  //  public CompletableFuture<ResponseEntity<Item>> getItem(@PathVariable final String id) {
+  //    return itemService.getItem(id).thenApply(ResponseEntity::ok);
+  //  }
+  public Item getItem(@PathVariable final String id) {
+    return itemService.getItem(id);
   }
 
+  /**
+   * Add item.
+   *
+   * @param item the item
+   */
   @RequestMapping(method = RequestMethod.POST, value = "/items")
   /**
    * Method to add item.
@@ -45,6 +60,12 @@ public class ItemController {
     itemService.addItem(item);
   }
 
+  /**
+   * Update item.
+   *
+   * @param item the item
+   * @param id   the id
+   */
   @RequestMapping(method = RequestMethod.PUT, value = "/items/{id}")
   /**
    * Method to update item by id.
@@ -53,6 +74,11 @@ public class ItemController {
     itemService.updateItem(item, id);
   }
 
+  /**
+   * Delete item.
+   *
+   * @param id the id
+   */
   @RequestMapping(method = RequestMethod.DELETE, value = "/items/{id}")
   /**
    * Method to delete item.
