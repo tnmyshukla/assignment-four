@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -48,7 +50,7 @@ public class ItemService {
    * @return the items
    */
   @Async("taskExecutor")
-  public List<Item> getItems() {
+  public CompletableFuture<List<Item>> getItems() {
     //    try {
     //      Thread.sleep(1000);
     //    } catch (InterruptedException e) {
@@ -57,7 +59,8 @@ public class ItemService {
     try {
       readLock.lock();
       logger.info("get list of user by " + Thread.currentThread().getName());
-      return StreamSupport.stream(itemRepository.findAll().spliterator(), false).collect(Collectors.toList());
+      return CompletableFuture.completedFuture(
+              StreamSupport.stream(itemRepository.findAll().spliterator(), false).collect(Collectors.toList()));
     } finally {
       readLock.unlock();
     }
@@ -70,11 +73,11 @@ public class ItemService {
    * @return the completable future
    */
   @Async("taskExecutor")
-  public Item getItem(final String id) {
+  public CompletableFuture<Item> getItem(final String id) {
     try {
       readLock.lock();
       logger.info("get new user by id: " + id + " by " + Thread.currentThread().getName());
-      return itemRepository.findById(id).get();
+      return CompletableFuture.completedFuture(itemRepository.findById(id).get());
     } finally {
       readLock.unlock();
     }
@@ -111,7 +114,7 @@ public class ItemService {
    * @return the item
    */
   @Async("taskExecutor")
-  public Item updateItem(final Item item,final String id) {
+  public CompletableFuture<Item> updateItem(final Item item, final String id) {
     //try {
     //  Thread.sleep(1000);
     //} catch (InterruptedException e) {
@@ -123,7 +126,7 @@ public class ItemService {
       itemRepository.save(
               new ItemBuilder(item.getId(), item.getName(), item.getType(), item.getPrice(), item.getQuantity())
                       .getItem());
-      return itemRepository.findById(id).get();
+      return CompletableFuture.completedFuture(itemRepository.findById(id).get());
     } finally {
       writeLock.unlock();
     }

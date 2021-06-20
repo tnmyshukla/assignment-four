@@ -9,7 +9,6 @@ import javax.persistence.Id;
 @Entity
 public class Item {
   @Id
-
   private String id;
   private String name;
   private int quantity;

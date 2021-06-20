@@ -2,7 +2,10 @@ package com.Assignment.AssignmentFour.controller;
 
 import com.Assignment.AssignmentFour.entity.Item;
 import com.Assignment.AssignmentFour.service.ItemService;
+
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +29,7 @@ public class ItemController {
   /**
    * Method to get all items.
    */
-  public List<Item> getAllItems() {
+  public CompletableFuture<List<Item>> getAllItems() {
     return itemService.getItems();
   }
 
@@ -43,7 +46,7 @@ public class ItemController {
   //  public CompletableFuture<ResponseEntity<Item>> getItem(@PathVariable final String id) {
   //    return itemService.getItem(id).thenApply(ResponseEntity::ok);
   //  }
-  public Item getItem(@PathVariable final String id) {
+  public CompletableFuture<Item> getItem(@PathVariable final String id) {
     return itemService.getItem(id);
   }
 

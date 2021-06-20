@@ -20,6 +20,8 @@ public class ItemBuilder {
     item.setId(id);
     item.setName(name);
     item.setType(type);
+    item.setPrice(price);
+    item.setQuantity(quantity);
     double salesTax = 0.0;
     double finalPrice;
     switch (type) {
